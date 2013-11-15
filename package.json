@@ -1,0 +1,22 @@
+{
+  "name": "kakulus",
+  "version": "0.0.1",
+  "description": "",
+  "dependencies": {
+    "LiveScript": "~1.2.0"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "http-server": "~0.5.5",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-livescript": "~0.5.1"
+  },
+  "scripts": {
+    "start": "node ./node_modules/http-server/bin/http-server ./demo",
+    "build": "grunt build"
+  },
+  "author": "Po-Ju Chen <tonyone0902@gmail.com>",
+  "license": "MIT"
+}
