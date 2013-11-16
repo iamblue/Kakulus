@@ -1,8 +1,58 @@
 (function(){
-  var ka;
+  var validator, generator, ka, Zigma, Limit, Arr, Arr2, Arr3;
+  validator = {
+    types: function(){
+      return {};
+    },
+    msg: function(){
+      return [];
+    },
+    check: function(data){
+      return this.error();
+    },
+    error: function(){
+      return !deepEq$(this.msg.length, 0, '===');
+    }
+  };
+  generator = {
+    msg: function(){},
+    output: function(){}
+  };
   ka = {
-    init: function(x){
+    _x: function(x){
       return x.toLowerCase();
+    },
+    init: function(x){
+      return this.x(x);
+    },
+    _funtion: function(){
+      var _length, _output, i$, len$, i;
+      _length = arguments.length;
+      _output = '';
+      for (i$ = 0, len$ = arguments.length; i$ < len$; ++i$) {
+        i = arguments[i$];
+        if (i !== 0 && _length - 1 > 1) {
+          if (i !== 1) {
+            _output += i + 'x^' + (_length - 1) + '+';
+          } else {
+            _output += 'x^' + (_length - 1) + '+';
+          }
+        } else {
+          if (_length - 1 === 1) {
+            if (i !== 1) {
+              if (i !== 0) {
+                _output += i + 'x' + '+';
+              }
+            } else {
+              _output += 'x' + '+';
+            }
+          } else if (_length - 1 === 0) {
+            _output += i;
+          }
+        }
+        _length = _length - 1;
+      }
+      return _output;
     },
     x: function(x){
       var _x;
@@ -45,9 +95,9 @@
     },
     diffAlgo: function(x){
       var _tmpDiffVar, _tmp, i$, len$, i, _tmpDiff, _f;
-      x = this.init(x);
+      x = this._x(x);
       _tmpDiffVar = '';
-      if (this.x(x)) {
+      if (this.init(x)) {
         _tmp = x.split('+');
         for (i$ = 0, len$ = _tmp.length; i$ < len$; ++i$) {
           i = _tmp[i$];
@@ -83,9 +133,144 @@
       return _tmpDiffVar;
     },
     inte: function(x, t, f){},
-    zigma: function(n, k, f){},
+    inteAlgo: function(x){
+      var _tmpInteVar;
+      x = this._x(x);
+      return _tmpInteVar = '';
+    },
     maxvalue: function(x, min, max){}
   };
+  Zigma = {
+    algo: function(n, k, f){}
+  };
+  Limit = {
+    algo: function(){}
+  };
+  Arr = {
+    _array: function(x){
+      var _tmpA, i$, ref$, len$, i, j$, ref1$, len1$, _i;
+      _tmpA = [];
+      for (i$ = 0, len$ = (ref$ = Object.keys(x)).length; i$ < len$; ++i$) {
+        i = ref$[i$];
+        for (j$ = 0, len1$ = (ref1$ = x[i]).length; j$ < len1$; ++j$) {
+          _i = ref1$[j$];
+          _tmpA.push(_i);
+        }
+      }
+      return _tmpA;
+    },
+    _init: function(x){
+      return Object.keys(x).length;
+    },
+    _equal: function(x, y){
+      return JSON.stringify(x) === JSON.stringify(y);
+    },
+    _add: function(x, y){
+      var _x, _y;
+      _x = new this._array(x);
+      _y = new this._array(y);
+      console.log(_x);
+      console.log(_y);
+      if (this._init(x) === this._init(y)) {
+        return console.log('=======');
+      }
+    }
+  };
+  console.log(ka._funtion(4, 0, 3, 4, 2, 0, 4));
+  Arr2 = {
+    a1: ['1', '2', '3'],
+    a2: ['2', '3', '4'],
+    a3: ['5', '6', '7']
+  };
+  Arr3 = {
+    a1: ['0', '0', '0'],
+    a2: ['1', '1', '1'],
+    a3: ['1', '1', '1']
+  };
+  Arr._add(Arr2, Arr3);
   console.log(ka.diffAlgo('2x^6+x^2+3x+7'));
-  console.log(ka.diff('2x^6+x^2+3x+7'));
+  function deepEq$(x, y, type){
+    var toString = {}.toString, hasOwnProperty = {}.hasOwnProperty,
+        has = function (obj, key) { return hasOwnProperty.call(obj, key); };
+    var first = true;
+    return eq(x, y, []);
+    function eq(a, b, stack) {
+      var className, length, size, result, alength, blength, r, key, ref, sizeB;
+      if (a == null || b == null) { return a === b; }
+      if (a.__placeholder__ || b.__placeholder__) { return true; }
+      if (a === b) { return a !== 0 || 1 / a == 1 / b; }
+      className = toString.call(a);
+      if (toString.call(b) != className) { return false; }
+      switch (className) {
+        case '[object String]': return a == String(b);
+        case '[object Number]':
+          return a != +a ? b != +b : (a == 0 ? 1 / a == 1 / b : a == +b);
+        case '[object Date]':
+        case '[object Boolean]':
+          return +a == +b;
+        case '[object RegExp]':
+          return a.source == b.source &&
+                 a.global == b.global &&
+                 a.multiline == b.multiline &&
+                 a.ignoreCase == b.ignoreCase;
+      }
+      if (typeof a != 'object' || typeof b != 'object') { return false; }
+      length = stack.length;
+      while (length--) { if (stack[length] == a) { return true; } }
+      stack.push(a);
+      size = 0;
+      result = true;
+      if (className == '[object Array]') {
+        alength = a.length;
+        blength = b.length;
+        if (first) { 
+          switch (type) {
+          case '===': result = alength === blength; break;
+          case '<==': result = alength <= blength; break;
+          case '<<=': result = alength < blength; break;
+          }
+          size = alength;
+          first = false;
+        } else {
+          result = alength === blength;
+          size = alength;
+        }
+        if (result) {
+          while (size--) {
+            if (!(result = size in a == size in b && eq(a[size], b[size], stack))){ break; }
+          }
+        }
+      } else {
+        if ('constructor' in a != 'constructor' in b || a.constructor != b.constructor) {
+          return false;
+        }
+        for (key in a) {
+          if (has(a, key)) {
+            size++;
+            if (!(result = has(b, key) && eq(a[key], b[key], stack))) { break; }
+          }
+        }
+        if (result) {
+          sizeB = 0;
+          for (key in b) {
+            if (has(b, key)) { ++sizeB; }
+          }
+          if (first) {
+            if (type === '<<=') {
+              result = size < sizeB;
+            } else if (type === '<==') {
+              result = size <= sizeB
+            } else {
+              result = size === sizeB;
+            }
+          } else {
+            first = false;
+            result = size === sizeB;
+          }
+        }
+      }
+      stack.pop();
+      return result;
+    }
+  }
 }).call(this);
