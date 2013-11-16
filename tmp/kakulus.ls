@@ -82,3 +82,4 @@ ka =
 console.log(ka.diff-algo('2x^6+x^2+3x+7'))
 #微分求值
 console.log(ka.diff('2x^6+x^2+3x+7',))
+

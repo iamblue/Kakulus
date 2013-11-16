@@ -20,7 +20,7 @@ module.exports = function(grunt) {
           livereload: true
         }
       },
-      jsall: {
+      lsall: {
         files: ['src/**/*.ls'],
         tasks: ['jsall']
       },
@@ -33,9 +33,9 @@ module.exports = function(grunt) {
     },
     concat: {
       livescript: {
-        src: ['<%= srcDir %>/*.ls'],
+        src: ['<%= srcDir %>/*.ls','<%= srcDir %>/**/*.ls'],
         // dest: 'tmp/.ls-cache/<%= pkg.name %>.ls'
-        dest: '<%= baseFileName %>.js'
+        dest: 'tmp/<%= pkg.name %>.ls'
         //options: { process: indentToLet }
       },
       dist: {
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
           compress: false
         },
         files: {
-          '<%= baseFileName %>.js': ['<%= concat.dist.dest %>']
+          '<%= baseFileName %>.js': ['tmp/<%= pkg.name %>.js']
         }
       },
       min: {
@@ -72,7 +72,7 @@ module.exports = function(grunt) {
           sourceMap: '<%= baseFileName %>.map'
         },
         files: {
-          '<%= baseFileName %>.min.js': ['<%= concat.dist.dest %>']
+          '<%= baseFileName %>.min.js': ['tmp/<%= pkg.name %>.js']
         }
       }
     }

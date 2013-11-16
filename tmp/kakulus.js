@@ -1,6 +1,6 @@
 (function(){
-  var check, init;
-  check = {
+  var ka;
+  ka = {
     init: function(x){
       return x.toLowerCase();
     },
@@ -15,8 +15,38 @@
       return _o.test(x);
     },
     diff: function(x, t, f){
-      var _tmp, i$, len$, i, _tmpDiff, _f, _tmpDiffVar, results$ = [];
+      var i$, to$, i, _tmpX, _tmp, _tmpMultiFinal, len$, _tmpMulti;
+      if (t) {
+        for (i$ = 1, to$ = Number(t) - 1; i$ <= to$; ++i$) {
+          i = i$;
+          _tmpX = this.diffAlgo(x);
+        }
+        if (f) {
+          _tmp = _tmpX.split('+');
+          _tmpMultiFinal = 0;
+          for (i$ = 0, len$ = _tmp.length; i$ < len$; ++i$) {
+            i = _tmp[i$];
+            if (this.x(i)) {
+              if (this.o(i)) {
+                _tmpMulti = i.split('x^');
+                _tmpMultiFinal = _tmpMultiFinal + Number(_tmpMulti[0]) * Math(f, Number(_tmpMulti[1]));
+              } else {
+                _tmpMultiFinal = _tmpMultiFinal + Number(i.split('x')[0]) * Number(f);
+              }
+            } else {
+              _tmpMultiFinal = _tmpMultiFinal + i;
+            }
+          }
+          return _tmpMultiFinal;
+        } else {
+          return _tmpX;
+        }
+      }
+    },
+    diffAlgo: function(x){
+      var _tmpDiffVar, _tmp, i$, len$, i, _tmpDiff, _f;
       x = this.init(x);
+      _tmpDiffVar = '';
       if (this.x(x)) {
         _tmp = x.split('+');
         for (i$ = 0, len$ = _tmp.length; i$ < len$; ++i$) {
@@ -27,31 +57,35 @@
               _f = String(Number(_tmpDiff[0]) * Number(_tmpDiff[1]));
               if (_tmpDiff[1] - 1 === 1) {
                 if (_f === 0) {
-                  results$.push(_tmpDiffVar = _f + 'x');
+                  _tmpDiffVar += _f + 'x+';
                 } else {
-                  results$.push(_tmpDiffVar = 'x');
+                  _tmpDiffVar += 'x+';
                 }
               } else {
                 if (_f === 0) {
-                  results$.push(_tmpDiffVar = 'x^' + String(Number(_tmpDiff[1]) - 1));
+                  _tmpDiffVar += 'x^' + String(Number(_tmpDiff[1]) - 1) + '+';
                 } else {
-                  results$.push(_tmpDiffVar = _f + 'x^' + String(Number(_tmpDiff[1]) - 1));
+                  _tmpDiffVar += _f + 'x^' + String(Number(_tmpDiff[1]) - 1) + '+';
                 }
               }
             } else {
-              results$.push(_tmpDiffVar = i.split('x')[0]);
+              if (i.split('x')[0] !== '') {
+                _tmpDiffVar += i.split('x')[0] + '';
+              } else {
+                _tmpDiffVar += '1';
+              }
             }
           }
         }
-        return results$;
       } else {
-        return x = 0;
+        x = 0;
       }
+      return _tmpDiffVar;
     },
-    inte: function(x, t, f){}
+    inte: function(x, t, f){},
+    zigma: function(n, k, f){},
+    maxvalue: function(x, min, max){}
   };
-  check.diff('2x^3+x^2+x+7');
-  init = {
-    arrayformat: {}
-  };
+  console.log(ka.diffAlgo('2x^6+x^2+3x+7'));
+  console.log(ka.diff('2x^6+x^2+3x+7'));
 }).call(this);
