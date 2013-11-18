@@ -1,5 +1,5 @@
 (function(){
-  var validator, generator, ka, Zigma, Limit, Arr, Arr2, Arr3;
+  var validator, generator, ka, Zigma, Limit, Arr, det, analysis, Arr2, Arr3;
   validator = {
     types: function(){
       return {};
@@ -107,9 +107,9 @@
               _f = String(Number(_tmpDiff[0]) * Number(_tmpDiff[1]));
               if (_tmpDiff[1] - 1 === 1) {
                 if (_f === 0) {
-                  _tmpDiffVar += _f + 'x+';
+                  _tmpDiffVar += _f + 'x';
                 } else {
-                  _tmpDiffVar += 'x+';
+                  _tmpDiffVar += 'x';
                 }
               } else {
                 if (_f === 0) {
@@ -120,9 +120,9 @@
               }
             } else {
               if (i.split('x')[0] !== '') {
-                _tmpDiffVar += i.split('x')[0] + '';
+                _tmpDiffVar += '+' + i.split('x')[0];
               } else {
-                _tmpDiffVar += '1';
+                _tmpDiffVar += '+1';
               }
             }
           }
@@ -162,21 +162,48 @@
     _init: function(x){
       return Object.keys(x).length;
     },
-    _equal: function(x, y){
+    equal: function(x, y){
       return JSON.stringify(x) === JSON.stringify(y);
     },
-    _add: function(x, y){
-      var _x, _y;
-      _x = new this._array(x);
-      _y = new this._array(y);
-      console.log(_x);
-      console.log(_y);
+    abAlgo: function(x, y, type){
+      var _value, _x, _y, i$, to$, i;
+      _value = [];
       if (this._init(x) === this._init(y)) {
-        return console.log('=======');
+        _x = new this._array(x);
+        _y = new this._array(y);
+        for (i$ = 0, to$ = _x.length - 1; i$ <= to$; ++i$) {
+          i = i$;
+          switch (type) {
+          case 'add':
+            _value.push(Number(_x[i]) + Number(_y[i]));
+            break;
+          case 'sub':
+            _value.push(Number(_x[i]) - Number(_y[i]));
+          }
+        }
       }
+      return _value;
+    },
+    add: function(x, y){
+      return this._abAlgo(x, y, 'add');
+    },
+    subtract: function(x, y){
+      return this._abAlgo(x, y, 'sub');
+    },
+    multiple: function(x, time){
+      var _x;
+      return _x = new this._array(x);
     }
   };
-  console.log(ka._funtion(4, 0, 3, 4, 2, 0, 4));
+  det = {
+    _init: function(){},
+    algo: function(){}
+  };
+  analysis = {
+    _init: function(){},
+    lsm: function(arr){}
+  };
+  console.log(ka.diffAlgo(ka._funtion(100, 0, 3, 4, 2, 0, 4)));
   Arr2 = {
     a1: ['1', '2', '3'],
     a2: ['2', '3', '4'],
@@ -187,7 +214,7 @@
     a2: ['1', '1', '1'],
     a3: ['1', '1', '1']
   };
-  Arr._add(Arr2, Arr3);
+  console.log(Arr._add(Arr2, Arr3));
   console.log(ka.diffAlgo('2x^6+x^2+3x+7'));
   function deepEq$(x, y, type){
     var toString = {}.toString, hasOwnProperty = {}.hasOwnProperty,

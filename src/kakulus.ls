@@ -92,9 +92,9 @@ ka =
             _f = String(Number(_tmp-diff[0])*Number(_tmp-diff[1]))
             if _tmp-diff[1]-1 == 1
               if _f == 0
-                _tmp-diff-var += _f+'x+'
+                _tmp-diff-var += _f+'x'
               else 
-                _tmp-diff-var += 'x+'
+                _tmp-diff-var += 'x'
             else  
               if _f == 0
                 _tmp-diff-var += 'x^'+String(Number(_tmp-diff[1])-1)+'+'               
@@ -102,12 +102,13 @@ ka =
                 _tmp-diff-var += _f+'x^'+String(Number(_tmp-diff[1])-1)+'+'
           else 
             if(i.split('x')[0]!='')
-              _tmp-diff-var += i.split('x')[0]+''
+              _tmp-diff-var += '+'+i.split('x')[0]
             else
-              _tmp-diff-var += '1'
+              _tmp-diff-var += '+1'
     else
       #如果是常數則0
       x = 0
+
     _tmp-diff-var
   #微分     
   inte: (x,t,f) ->
@@ -146,24 +147,53 @@ Arr =
     _tmp-a
   _init: (x)->
     Object.keys(x).length
-  _equal: (x,y)->
+  equal: (x,y)->
     JSON.stringify(x) == JSON.stringify(y)
-  _add: (x,y)->
-    #x,y 都必須是相加矩陣
-    # this._init(Arr2[Object.keys(x)])
-    _x = new this._array(x)
-    _y = new this._array(y) 
-    console.log _x
-    console.log _y
+  ab-algo: (x,y,type)->
+    _value = []
     if(this._init(x) == this._init(y))
-       console.log('=======')
-      
+      _x = new this._array(x)
+      _y = new this._array(y) 
+      for i from 0 to _x.length-1 by 1
+        switch(type)
+        case 'add'  then _value.push(Number(_x[i])+Number(_y[i]))
+        case 'sub'  then _value.push(Number(_x[i])-Number(_y[i]))
+    _value
+  add: (x,y)->
+    #x,y 都必須是相加矩陣
+    this._ab-algo(x,y,'add')  
+  subtract: (x,y)->
+    #x,y 都必須是相減矩陣
+    this._ab-algo(x,y,'sub')
+  multiple: (x,time)->
+    #矩陣倍數成積
+    _x = new this._array(x)
+
+    
+det = 
+  #行列式
+  #用來解線性
+  _init : ->
+  algo: ->
+
+analysis = 
+  #數值分析 
+  _init : ->
+  lsm : (arr)->
+    #least sequare method
+    #最小平方法
 
 
 
 
 
-console.log(ka._funtion(4,0,3,4,2,0,4))
+console.log(ka.diff-algo(ka._funtion(100,0,3,4,2,0,4)))
+
+
+
+
+
+
 
 #計算Demo 
 Arr2 = {
@@ -200,7 +230,7 @@ Arr3 = {
     '1'
   ]
 }
-Arr._add(Arr2,Arr3)
+console.log(Arr._add(Arr2,Arr3))
 
 # kk =  ->
 #   if (typeof kk.kerker == 'object')
