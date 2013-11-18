@@ -1,5 +1,5 @@
 (function(){
-  var validator, generator, ka, Zigma, Limit, Arr, det, analysis, Arr2, Arr3;
+  var validator, generator, ka, Zigma, Limit, Arr, det, analysis, arr_tmp, io, Arr2, Arr3;
   validator = {
     types: function(){
       return {};
@@ -16,7 +16,78 @@
   };
   generator = {
     msg: function(){},
-    output: function(){}
+    _xfunc: function(x){
+      var _tmparr, i$, i;
+      _tmparr = [];
+      for (i$ = x.length - 1; i$ >= 0; --i$) {
+        i = i$;
+        if (i === 0) {
+          _tmparr.push('');
+        } else {
+          if (i === 1) {
+            _tmparr.push('x');
+          } else {
+            _tmparr.push('x^' + i);
+          }
+        }
+      }
+      return _tmparr;
+    },
+    func: function(x){
+      var _x, _output, i$, to$, i;
+      _x = this._xfunc(x);
+      _output = '';
+      for (i$ = 0, to$ = x.length - 1; i$ <= to$; ++i$) {
+        i = i$;
+        if (x[i] !== 0) {
+          if (i === x.length - 1) {
+            _output += x[i] + _x[i];
+          } else {
+            if (x[i] !== 1) {
+              _output += x[i] + _x[i] + '+';
+            } else {
+              _output += _x[i] + '+';
+            }
+          }
+        }
+      }
+      return _output;
+    },
+    arr: function(x){
+      var _tmpX, _maxtime, _tmpmaxtime, _output, i$, len$, i, _arr, to$, item;
+      _tmpX = x.split('+');
+      _maxtime = 0;
+      _tmpmaxtime = 0;
+      _output = [];
+      for (i$ = 0, len$ = _tmpX.length; i$ < len$; ++i$) {
+        i = _tmpX[i$];
+        _arr = i.split('^');
+        if (!_arr[1]) {
+          _arr[1] = 0;
+        }
+        if (_tmpmaxtime < _arr[1]) {
+          _tmpmaxtime = _arr[1];
+        }
+      }
+      for (i$ = 0; i$ <= _tmpmaxtime; ++i$) {
+        i = i$;
+        _output.push('0');
+      }
+      for (i$ = 0, to$ = _tmpX.length - 1; i$ <= to$; ++i$) {
+        i = i$;
+        item = _tmpX[i].split('^');
+        if (!item[1]) {
+          item[1] = 0;
+        }
+        if (item[1] === 0 && item[0] !== 0) {
+          _output[Number(_tmpmaxtime)] = item[0];
+        }
+        if (Number(item[1]) !== 0) {
+          _output[Number(_tmpmaxtime) - Number(item[1])] = item[0].replace('x', '');
+        }
+      }
+      return _output;
+    }
   };
   ka = {
     _x: function(x){
@@ -24,35 +95,6 @@
     },
     init: function(x){
       return this.x(x);
-    },
-    _funtion: function(){
-      var _length, _output, i$, len$, i;
-      _length = arguments.length;
-      _output = '';
-      for (i$ = 0, len$ = arguments.length; i$ < len$; ++i$) {
-        i = arguments[i$];
-        if (i !== 0 && _length - 1 > 1) {
-          if (i !== 1) {
-            _output += i + 'x^' + (_length - 1) + '+';
-          } else {
-            _output += 'x^' + (_length - 1) + '+';
-          }
-        } else {
-          if (_length - 1 === 1) {
-            if (i !== 1) {
-              if (i !== 0) {
-                _output += i + 'x' + '+';
-              }
-            } else {
-              _output += 'x' + '+';
-            }
-          } else if (_length - 1 === 0) {
-            _output += i;
-          }
-        }
-        _length = _length - 1;
-      }
-      return _output;
     },
     x: function(x){
       var _x;
@@ -185,10 +227,10 @@
       return _value;
     },
     add: function(x, y){
-      return this._abAlgo(x, y, 'add');
+      return this.abAlgo(x, y, 'add');
     },
     subtract: function(x, y){
-      return this._abAlgo(x, y, 'sub');
+      return this.abAlgo(x, y, 'sub');
     },
     multiple: function(x, time){
       var _x;
@@ -201,9 +243,41 @@
   };
   analysis = {
     _init: function(){},
-    lsm: function(arr){}
+    _lsmInit: function(arr, number){
+      var zigmax, zigmax2, zigmay, zigmay2, i$, len$, i, results$ = [];
+      zigmax = 0;
+      zigmax2 = 0;
+      zigmay = 0;
+      zigmay2 = 0;
+      for (i$ = 0, len$ = arr.length; i$ < len$; ++i$) {
+        i = arr[i$];
+        results$.push(zigmax += i.x);
+      }
+      return results$;
+    },
+    lsm: function(arr, number){
+      var m;
+      return m = number(-2);
+    }
   };
-  console.log(ka.diffAlgo(ka._funtion(100, 0, 3, 4, 2, 0, 4)));
+  arr_tmp = [5, 0, 0, 0, 3, 1];
+  console.log(generator.func(arr_tmp));
+  io = [
+    {
+      x: -1.3,
+      y: 0.103
+    }, {
+      x: -0.1,
+      y: 1.099
+    }, {
+      x: 0.2,
+      y: 0.808
+    }, {
+      x: 1.3,
+      y: 1.897
+    }
+  ];
+  console.log(ka.diffAlgo(generator.func([100, 0, 3, 4, 2, 0, 4])));
   Arr2 = {
     a1: ['1', '2', '3'],
     a2: ['2', '3', '4'],
@@ -214,7 +288,8 @@
     a2: ['1', '1', '1'],
     a3: ['1', '1', '1']
   };
-  console.log(Arr._add(Arr2, Arr3));
+  console.log(Arr.add(Arr2, Arr3));
+  console.log(generator.arr('4x^8+4x^7+7x^4+3x^2+1'));
   console.log(ka.diffAlgo('2x^6+x^2+3x+7'));
   function deepEq$(x, y, type){
     var toString = {}.toString, hasOwnProperty = {}.hasOwnProperty,

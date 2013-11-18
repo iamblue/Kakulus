@@ -7,41 +7,70 @@ validator =
   error : ->
     this.msg.length !== 0
 
-generator = 
+generator =
   #產出
-  msg: ->
-  output: -> 
+  msg: -> 
+  
+  _xfunc: (x)->
+    #列出x的array
+    _tmparr = []
+    for i from x.length-1 to 0 by -1
+      if i == 0
+        _tmparr.push('')
+      else 
+        if i == 1 
+          _tmparr.push('x')
+        else
+          _tmparr.push('x^'+i)
+    _tmparr
+  
+  func: (x)->
+    #把array 產生出 fucntion 
+    _x = this._xfunc(x)
+    _output = ''
+    for i from 0 to x.length-1 by 1
+      if(x[i] !=0)
+        if(i == x.length-1)
+          _output += x[i]+_x[i]
+        else          
+          if x[i] != 1
+            _output += x[i]+_x[i]+'+'
+          else
+            _output += _x[i]+'+'
+    _output
+
+  arr: (x)->
+    #把function 轉成 array
+    _tmp-x = x.split('+')
+    _maxtime = 0
+    _tmpmaxtime = 0
+    _output = []
+    for i in _tmp-x 
+      _arr = i.split('^')
+      if(!_arr[1])
+        _arr[1] = 0
+      if _tmpmaxtime < _arr[1]
+        _tmpmaxtime = _arr[1]
+    for i from 0 to _tmpmaxtime by 1
+      _output.push('0') 
+    for i from 0 to _tmp-x.length-1 by 1
+      item = _tmp-x[i].split('^')
+      if !item[1]
+        item[1] = 0
+      if item[1] == 0 && item[0] != 0 
+        _output[(Number(_tmpmaxtime))] = item[0] 
+      if Number(item[1]) != 0
+        _output[ (Number(_tmpmaxtime) - Number(item[1]))] = item[0].replace('x','')  
+    _output  
 
 
 ka =
   #主程式 
   _x : (x)->
-    x.toLowerCase()
+    x.toLowerCase()  
 
   init:(x)->
     this.x(x) 
-
-  _funtion : ->
-    #把array轉乘functon
-    _length = arguments.length 
-    _output = ''
-    for i in arguments
-      if i != 0 && (_length-1) > 1
-        if i != 1
-          _output += i+'x^'+(_length-1)+'+'
-        else
-          _output += 'x^'+(_length-1)+'+'
-      else
-        if (_length-1) == 1
-          if i != 1
-            if (i != 0)
-              _output += i+'x'+'+'
-          else 
-            _output += 'x'+'+'
-        else if (_length-1 == 0)
-          _output += i
-      _length = _length-1 
-    _output
 
   x:(x)->
     #檢查是否為常數
@@ -135,8 +164,6 @@ Zigma =
 Limit = 
   algo: ->
 
-
-
 Arr = 
   _array: (x)->
     #把m x m矩陣變成1 x 2m
@@ -161,14 +188,13 @@ Arr =
     _value
   add: (x,y)->
     #x,y 都必須是相加矩陣
-    this._ab-algo(x,y,'add')  
+    this.ab-algo(x,y,'add')  
   subtract: (x,y)->
     #x,y 都必須是相減矩陣
-    this._ab-algo(x,y,'sub')
+    this.ab-algo(x,y,'sub')
   multiple: (x,time)->
     #矩陣倍數成積
     _x = new this._array(x)
-
     
 det = 
   #行列式
@@ -179,21 +205,29 @@ det =
 analysis = 
   #數值分析 
   _init : ->
-  lsm : (arr)->
+  _lsm-init: (arr,number) -> 
+    zigmax = 0;
+    zigmax2 = 0;
+    zigmay = 0;
+    zigmay2 = 0;
+
+    for i in arr
+      zigmax += i.x
+
+  lsm : (arr,number)->
     #least sequare method
     #最小平方法
+    m = number -2
 
+#=============================================
+#Demo
+#==============================================
+arr_tmp =[5,0,0,0,3,1]
+console.log(generator.func(arr_tmp))
 
+io = [{x:-1.3,y:0.103},{x:-0.1,y:1.099},{x:0.2,y:0.808},{x:1.3,y:1.897}]
 
-
-
-console.log(ka.diff-algo(ka._funtion(100,0,3,4,2,0,4)))
-
-
-
-
-
-
+console.log(ka.diff-algo(generator.func([100,0,3,4,2,0,4])))
 
 #計算Demo 
 Arr2 = {
@@ -230,7 +264,7 @@ Arr3 = {
     '1'
   ]
 }
-console.log(Arr._add(Arr2,Arr3))
+console.log(Arr.add(Arr2,Arr3))
 
 # kk =  ->
 #   if (typeof kk.kerker == 'object')
@@ -245,11 +279,8 @@ console.log(Arr._add(Arr2,Arr3))
 # ttt = new kk()
 # kk.prototype.kkk ='123'
 # yyy = new kk()
-
-
+console.log(generator.arr('4x^8+4x^7+7x^4+3x^2+1'));
 #微分(一次導數)
 console.log(ka.diff-algo('2x^6+x^2+3x+7'))
 #微分求值
 #console.log(ka.diff('2x^6+x^2+3x+7',))
-
-
