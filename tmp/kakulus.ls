@@ -11,9 +11,10 @@ Kakulus = ->
       argu[0]()
     this.algo = ->
       argu2 = arguments
-      console.log argu2
+      fn = argu2[0]
       new _this._algo(argu,_this)
     this.factory = ->
+      #like angular factory
       new _this._factory(argu,_this)
     
     this.Define
@@ -302,7 +303,7 @@ Kakulus.prototype.Zigma = _Zigma
 #==============================================
 
 console.log kakulus.define('sdffsd', ['sdffsd']).algo(
-  ->
+  ($array,$det,$analysis)->
     console.log \123
 ).factory(
   ->

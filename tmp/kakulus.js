@@ -16,9 +16,9 @@
         return argu[0]();
       };
       this.algo = function(){
-        var argu2;
+        var argu2, fn;
         argu2 = arguments;
-        console.log(argu2);
+        fn = argu2[0];
         return new _this._algo(argu, _this);
       };
       this.factory = function(){
@@ -344,7 +344,7 @@
   Kakulus.prototype.Arr = _Arr;
   Kakulus.prototype.Limit = _Limit;
   Kakulus.prototype.Zigma = _Zigma;
-  console.log(kakulus.define('sdffsd', ['sdffsd']).algo(function(){
+  console.log(kakulus.define('sdffsd', ['sdffsd']).algo(function($array, $det, $analysis){
     return console.log('123');
   }).factory(function(){
     return console.log('hifactory');
