@@ -1,16 +1,44 @@
-validator = 
-  #驗證錯誤訊息
-  types : ->{}
-  msg : -> []
-  check : (data)->
-    this.error()
-  error : ->
-    this.msg.length !== 0
+Kakulus = ->
+  _define = {}    #include kakulus.define
+  this._algo = (argu,_this)-> 
+    console.log \123 
+    new _this.Define(argu,_this)
+  this._factory = (argu,_this)-> 
+    console.log \1245 
+    new _this.Define(argu,_this)
+  this.Define  = (argu,_this)->
+    _define.[argu[0]] = ->
+      argu[0]()
+    this.algo = ->
+      argu2 = arguments
+      console.log argu2
+      new _this._algo(argu,_this)
+    this.factory = ->
+      new _this._factory(argu,_this)
+    
+    this.Define
+  this.define = -> 
+    argu =  arguments   #argu[0]-> module define name, argu[1]-> modules name
+    new this.Define(argu,this)
+    
+  if !(this instanceof Kakulus) 
+     throw new SyntaxError('ka constructor must be called with the new operator');
+  
+kakulus = new Kakulus()
 
-generator =
+_generator = 
   #產出
   msg: -> 
-  
+  detect: (x)->
+    #偵測是array還是function
+    _reg = /x/
+    _reg.test(x)
+    _output = ''
+    if _reg.test(x)
+      _output = this.arr(x)
+    else        
+      _output = this.func(x)
+    _output
   _xfunc: (x)->
     #列出x的array
     _tmparr = []
@@ -23,7 +51,6 @@ generator =
         else
           _tmparr.push('x^'+i)
     _tmparr
-  
   func: (x)->
     #把array 產生出 fucntion 
     _x = this._xfunc(x)
@@ -38,7 +65,6 @@ generator =
           else
             _output += _x[i]+'+'
     _output
-
   arr: (x)->
     #把function 轉成 array
     _tmp-x = x.split('+')
@@ -62,10 +88,13 @@ generator =
       if Number(item[1]) != 0
         _output[ (Number(_tmpmaxtime) - Number(item[1]))] = item[0].replace('x','')  
     _output  
+ 
+#ka -> console.log 123 
 
-
-ka =
+_main =
   #主程式 
+  #也就是說要先call new ka() 才能叫function
+    
   _x : (x)->
     x.toLowerCase()  
 
@@ -82,6 +111,31 @@ ka =
     _o = /\^/g
     _o.test(x)
 
+  slope:(x) ->
+    #@x => function 
+    #2x+3y+4 = 0
+    #tanx
+    #/ m:+ , \ m:-
+    switch typeof x
+    case \string
+      x = this._x(x)
+      _tmp = x.split('+')
+      regx = /x/
+      regy = /y/
+      _x = 0;
+      _y = 0;
+      for i in _tmp
+        if regx.test(i)
+          _x = i.split('x')[0]
+          # console.log(_x)
+        if regy.test(i)
+          _y = i.split('y')[0]
+          # console.log(_y);
+      Number(_y)/Number(_x)
+    case \object
+      if Array.isArray(x)
+        console.log('array!!!')
+    
   diff:(x,t,f)->
     #微分
     #@x => function
@@ -106,8 +160,9 @@ ka =
         _tmp-multi-final
       else
         _tmp-x
-  #積分  
+    
   diff-algo:(x)->
+    #積分
     #@x => fucntion
     x = this._x(x)  
     _tmp-diff-var = '';    
@@ -154,17 +209,16 @@ ka =
     #min => 最小的範圍
     #max => 最大的範圍
 
-
-Zigma = 
+_Zigma = 
   algo: (n,k,f) ->
     #@n => 趨近
     #@k => 起始值
     #@f => function
 
-Limit = 
+_Limit = 
   algo: ->
 
-Arr = 
+_Arr = 
   _array: (x)->
     #把m x m矩陣變成1 x 2m
     _tmp-a = []
@@ -196,15 +250,20 @@ Arr =
     #矩陣倍數成積
     _x = new this._array(x)
     
-det = 
+_det = 
   #行列式
   #用來解線性
-  _init : ->
-  algo: ->
+  _init : (x)->
 
-analysis = 
+
+  algo: (x)->
+    this._init(x)
+
+
+_analysis = 
   #數值分析 
   _init : ->
+
   _lsm-init: (arr,number) -> 
     zigmax = 0;
     zigmax2 = 0;
@@ -219,52 +278,89 @@ analysis =
     #最小平方法
     m = number -2
 
+_validator = 
+  #驗證錯誤訊息
+  types : ->{}
+  msg : -> []
+  check : (data)->
+    this.error()
+  error : ->
+    this.msg.length !== 0
+
+Kakulus.prototype.generator = _generator
+Kakulus.prototype.main = _main 
+Kakulus.prototype.validator = _validator 
+Kakulus.prototype.analysis = _analysis 
+Kakulus.prototype.det = _det 
+Kakulus.prototype.Arr = _Arr
+Kakulus.prototype.Limit = _Limit
+Kakulus.prototype.Zigma = _Zigma 
+
+
 #=============================================
 #Demo
 #==============================================
-arr_tmp =[5,0,0,0,3,1]
-console.log(generator.func(arr_tmp))
 
-io = [{x:-1.3,y:0.103},{x:-0.1,y:1.099},{x:0.2,y:0.808},{x:1.3,y:1.897}]
+console.log kakulus.define('sdffsd', ['sdffsd']).algo(
+  ->
+    console.log \123
+).factory(
+  ->
+    console.log \hifactory
+)
+# console.log kakulus.define('sdffsd333', ['sdffsd'])
 
-console.log(ka.diff-algo(generator.func([100,0,3,4,2,0,4])))
+# kakulus.define('sdffsd', ['sdffsd']).algo(-> console.log(123))
+
+kakulus.main.slope(['123','456'])
+# 為何kakulus.main.slope(['123','456'])不能執行？
+# 因為要先new過才能直接抓prototype的東西
+
+
+
+# arr_tmp =[5,0,0,0,3,1]
+# console.log(generator.func(arr_tmp))
+
+# io = [{x:-1.3,y:0.103},{x:-0.1,y:1.099},{x:0.2,y:0.808},{x:1.3,y:1.897}]
+
+# console.log(ka.diff-algo(generator.func([100,0,3,4,2,0,4])))
 
 #計算Demo 
-Arr2 = {
-  a1: [
-    '1'
-    '2'
-    '3'
-  ] 
-  a2: [
-    '2'
-    '3'
-    '4'
-  ]
-  a3: [
-    '5'
-    '6'
-    '7'
-  ]
-}
-Arr3 = {
-  a1: [
-    '0'
-    '0'
-    '0'
-  ] 
-  a2: [
-    '1'
-    '1'
-    '1'
-  ]
-  a3: [
-    '1'
-    '1'
-    '1'
-  ]
-}
-console.log(Arr.add(Arr2,Arr3))
+# Arr2 = {
+#   a1: [
+#     '1'
+#     '2'
+#     '3'
+#   ] 
+#   a2: [
+#     '2'
+#     '3'
+#     '4'
+#   ]
+#   a3: [
+#     '5'
+#     '6'
+#     '7'
+#   ]
+# }
+# Arr3 = {
+#   a1: [
+#     '0'
+#     '0'
+#     '0'
+#   ] 
+#   a2: [
+#     '1'
+#     '1'
+#     '1'
+#   ]
+#   a3: [
+#     '1'
+#     '1'
+#     '1'
+#   ]
+# }
+# console.log(Arr.add(Arr2,Arr3))
 
 # kk =  ->
 #   if (typeof kk.kerker == 'object')
@@ -279,8 +375,8 @@ console.log(Arr.add(Arr2,Arr3))
 # ttt = new kk()
 # kk.prototype.kkk ='123'
 # yyy = new kk()
-console.log(generator.arr('4x^8+4x^7+7x^4+3x^2+1'));
+# console.log(generator.arr('4x^8+4x^7+7x^4+3x^2+1'));
 #微分(一次導數)
-console.log(ka.diff-algo('2x^6+x^2+3x+7'))
+# console.log(ka.diff-algo('2x^6+x^2+3x+7'))
 #微分求值
 #console.log(ka.diff('2x^6+x^2+3x+7',))

@@ -1,21 +1,55 @@
 (function(){
-  var validator, generator, ka, Zigma, Limit, Arr, det, analysis, arr_tmp, io, Arr2, Arr3;
-  validator = {
-    types: function(){
-      return {};
-    },
-    msg: function(){
-      return [];
-    },
-    check: function(data){
-      return this.error();
-    },
-    error: function(){
-      return !deepEq$(this.msg.length, 0, '===');
+  var Kakulus, kakulus, _generator, _main, _Zigma, _Limit, _Arr, _det, _analysis, _validator;
+  Kakulus = function(){
+    var _define;
+    _define = {};
+    this._algo = function(argu, _this){
+      console.log('123');
+      return new _this.Define(argu, _this);
+    };
+    this._factory = function(argu, _this){
+      console.log('1245');
+      return new _this.Define(argu, _this);
+    };
+    this.Define = function(argu, _this){
+      _define[argu[0]] = function(){
+        return argu[0]();
+      };
+      this.algo = function(){
+        var argu2;
+        argu2 = arguments;
+        console.log(argu2);
+        return new _this._algo(argu, _this);
+      };
+      this.factory = function(){
+        return new _this._factory(argu, _this);
+      };
+      return this.Define;
+    };
+    this.define = function(){
+      var argu;
+      argu = arguments;
+      return new this.Define(argu, this);
+    };
+    if (!(this instanceof Kakulus)) {
+      throw new SyntaxError('ka constructor must be called with the new operator');
     }
   };
-  generator = {
+  kakulus = new Kakulus();
+  _generator = {
     msg: function(){},
+    detect: function(x){
+      var _reg, _output;
+      _reg = /x/;
+      _reg.test(x);
+      _output = '';
+      if (_reg.test(x)) {
+        _output = this.arr(x);
+      } else {
+        _output = this.func(x);
+      }
+      return _output;
+    },
     _xfunc: function(x){
       var _tmparr, i$, i;
       _tmparr = [];
@@ -89,7 +123,7 @@
       return _output;
     }
   };
-  ka = {
+  _main = {
     _x: function(x){
       return x.toLowerCase();
     },
@@ -105,6 +139,32 @@
       var _o;
       _o = /\^/g;
       return _o.test(x);
+    },
+    slope: function(x){
+      var _tmp, regx, regy, _x, _y, i$, len$, i;
+      switch (typeof x) {
+      case 'string':
+        x = this._x(x);
+        _tmp = x.split('+');
+        regx = /x/;
+        regy = /y/;
+        _x = 0;
+        _y = 0;
+        for (i$ = 0, len$ = _tmp.length; i$ < len$; ++i$) {
+          i = _tmp[i$];
+          if (regx.test(i)) {
+            _x = i.split('x')[0];
+          }
+          if (regy.test(i)) {
+            _y = i.split('y')[0];
+          }
+        }
+        return Number(_y) / Number(_x);
+      case 'object':
+        if (Array.isArray(x)) {
+          return console.log('array!!!');
+        }
+      }
     },
     diff: function(x, t, f){
       var i$, to$, i, _tmpX, _tmp, _tmpMultiFinal, len$, _tmpMulti;
@@ -182,13 +242,13 @@
     },
     maxvalue: function(x, min, max){}
   };
-  Zigma = {
+  _Zigma = {
     algo: function(n, k, f){}
   };
-  Limit = {
+  _Limit = {
     algo: function(){}
   };
-  Arr = {
+  _Arr = {
     _array: function(x){
       var _tmpA, i$, ref$, len$, i, j$, ref1$, len1$, _i;
       _tmpA = [];
@@ -237,11 +297,13 @@
       return _x = new this._array(x);
     }
   };
-  det = {
-    _init: function(){},
-    algo: function(){}
+  _det = {
+    _init: function(x){},
+    algo: function(x){
+      return this._init(x);
+    }
   };
-  analysis = {
+  _analysis = {
     _init: function(){},
     _lsmInit: function(arr, number){
       var zigmax, zigmax2, zigmay, zigmay2, i$, len$, i, results$ = [];
@@ -260,37 +322,34 @@
       return m = number(-2);
     }
   };
-  arr_tmp = [5, 0, 0, 0, 3, 1];
-  console.log(generator.func(arr_tmp));
-  io = [
-    {
-      x: -1.3,
-      y: 0.103
-    }, {
-      x: -0.1,
-      y: 1.099
-    }, {
-      x: 0.2,
-      y: 0.808
-    }, {
-      x: 1.3,
-      y: 1.897
+  _validator = {
+    types: function(){
+      return {};
+    },
+    msg: function(){
+      return [];
+    },
+    check: function(data){
+      return this.error();
+    },
+    error: function(){
+      return !deepEq$(this.msg.length, 0, '===');
     }
-  ];
-  console.log(ka.diffAlgo(generator.func([100, 0, 3, 4, 2, 0, 4])));
-  Arr2 = {
-    a1: ['1', '2', '3'],
-    a2: ['2', '3', '4'],
-    a3: ['5', '6', '7']
   };
-  Arr3 = {
-    a1: ['0', '0', '0'],
-    a2: ['1', '1', '1'],
-    a3: ['1', '1', '1']
-  };
-  console.log(Arr.add(Arr2, Arr3));
-  console.log(generator.arr('4x^8+4x^7+7x^4+3x^2+1'));
-  console.log(ka.diffAlgo('2x^6+x^2+3x+7'));
+  Kakulus.prototype.generator = _generator;
+  Kakulus.prototype.main = _main;
+  Kakulus.prototype.validator = _validator;
+  Kakulus.prototype.analysis = _analysis;
+  Kakulus.prototype.det = _det;
+  Kakulus.prototype.Arr = _Arr;
+  Kakulus.prototype.Limit = _Limit;
+  Kakulus.prototype.Zigma = _Zigma;
+  console.log(kakulus.define('sdffsd', ['sdffsd']).algo(function(){
+    return console.log('123');
+  }).factory(function(){
+    return console.log('hifactory');
+  }));
+  kakulus.main.slope(['123', '456']);
   function deepEq$(x, y, type){
     var toString = {}.toString, hasOwnProperty = {}.hasOwnProperty,
         has = function (obj, key) { return hasOwnProperty.call(obj, key); };
