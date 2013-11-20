@@ -1,29 +1,31 @@
 Kakulus = ->
   _define = {}    #include kakulus.define
   this._algo = (argu,_this)-> 
-    # console.log \123 
-    _di = []
+    # console.log \123
+
+    # console.log(_define)
+    # console.log(argu1)
+    # console.log(this[argu1])
+    args = Array.prototype.slice.call(argu).splice(0);
+    console.log args
     _fn = argu[0].toString()
     fn = _fn.replace(/\s/g,'').split('function(')[1].split(')')[0].split(',')
     fn_output = _fn.replace(_fn.split('{')[0],'')
     _i = ''
+    _u = ''
     for i in fn
-      _di.push i
+      _u += i
       _i += i+' = kakulus.'+i.replace('$','')+';'
     _tmp = '(function () {'+_i+_fn.split('{')[1].replace('{','')+')()'
-    #console.log _tmp
     eval(_tmp)
     new _this.Define(argu,_this)
   this._factory = (argu,_this)-> 
     # console.log \1245 
     new _this.Define(argu,_this)
   this.Define  = (argu,_this)->
-    _define.[argu[0]] = ->
-      argu[0]()
-    this.algo = ->
+    this.algo = ->  
       argu = arguments
-       
-      new _this._algo(argu,_this,)
+      new _this._algo(argu,_this)
     this.factory = ->
       #like angular factory
       new _this._factory(argu,_this)
@@ -31,6 +33,8 @@ Kakulus = ->
     this.Define
   this.define = -> 
     argu =  arguments   #argu[0]-> module define name, argu[1]-> modules name
+    _define.[argu[0]] = ->
+      argu[0]()
     new this.Define(argu,this)
     
   if !(this instanceof Kakulus) 
@@ -313,14 +317,29 @@ Kakulus.prototype.Zigma = _Zigma
 #Demo
 #==============================================
 # 
-kakulus.define('sdffsd', ['sdffsd']).algo(
-  ($main)->
+kakulus.define('main', []).algo(
+  ($main,$generator)->
+    arr_tmp =[5,0,0,0,3,1]
+    console.log $generator.func(arr_tmp)
     $main.slope(['123','456'])
     console.log \123
 ).factory(
   ->
     console.log \hifactory
-)
+);
+kakulus.define('main2', []).algo(
+  ($main)->
+    arr_tmp =[5,0,0,0,3,1]
+    console.log $generator.func(arr_tmp)
+    $main.slope(['123','456'])
+    # console.log \123
+).factory(
+  ->
+    console.log \hifactory
+);
+
+arr_tmp =[5,0,0,0,3,1]
+kakulus.generator.func(arr_tmp)
 # console.log kakulus.define('sdffsd333', ['sdffsd'])
 
 # kakulus.define('sdffsd', ['sdffsd']).algo(-> console.log(123))

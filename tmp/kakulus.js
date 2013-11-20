@@ -1,18 +1,20 @@
 (function(){
-  var Kakulus, kakulus, _generator, _main, _Zigma, _Limit, _Arr, _det, _analysis, _validator;
+  var Kakulus, kakulus, _generator, _main, _Zigma, _Limit, _Arr, _det, _analysis, _validator, arr_tmp;
   Kakulus = function(){
     var _define;
     _define = {};
     this._algo = function(argu, _this){
-      var _di, _fn, fn, fn_output, _i, i$, len$, i, _tmp;
-      _di = [];
+      var args, _fn, fn, fn_output, _i, _u, i$, len$, i, _tmp;
+      args = Array.prototype.slice.call(argu).splice(0);
+      console.log(args);
       _fn = argu[0].toString();
       fn = _fn.replace(/\s/g, '').split('function(')[1].split(')')[0].split(',');
       fn_output = _fn.replace(_fn.split('{')[0], '');
       _i = '';
+      _u = '';
       for (i$ = 0, len$ = fn.length; i$ < len$; ++i$) {
         i = fn[i$];
-        _di.push(i);
+        _u += i;
         _i += i + ' = kakulus.' + i.replace('$', '') + ';';
       }
       _tmp = '(function () {' + _i + _fn.split('{')[1].replace('{', '') + ')()';
@@ -23,9 +25,6 @@
       return new _this.Define(argu, _this);
     };
     this.Define = function(argu, _this){
-      _define[argu[0]] = function(){
-        return argu[0]();
-      };
       this.algo = function(){
         var argu;
         argu = arguments;
@@ -39,6 +38,9 @@
     this.define = function(){
       var argu;
       argu = arguments;
+      _define[argu[0]] = function(){
+        return argu[0]();
+      };
       return new this.Define(argu, this);
     };
     if (!(this instanceof Kakulus)) {
@@ -354,10 +356,23 @@
   Kakulus.prototype.Arr = _Arr;
   Kakulus.prototype.Limit = _Limit;
   Kakulus.prototype.Zigma = _Zigma;
-  kakulus.define('sdffsd', ['sdffsd']).algo(function($main){
+  kakulus.define('main', []).algo(function($main, $generator){
+    var arr_tmp;
+    arr_tmp = [5, 0, 0, 0, 3, 1];
+    console.log($generator.func(arr_tmp));
     $main.slope(['123', '456']);
     return console.log('123');
   }).factory(function(){
     return console.log('hifactory');
   });
+  kakulus.define('main2', []).algo(function($main){
+    var arr_tmp;
+    arr_tmp = [5, 0, 0, 0, 3, 1];
+    console.log($generator.func(arr_tmp));
+    return $main.slope(['123', '456']);
+  }).factory(function(){
+    return console.log('hifactory');
+  });
+  arr_tmp = [5, 0, 0, 0, 3, 1];
+  kakulus.generator.func(arr_tmp);
 }).call(this);
