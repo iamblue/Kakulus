@@ -4,11 +4,22 @@
     var _define;
     _define = {};
     this._algo = function(argu, _this){
-      console.log('123');
+      var _di, _fn, fn, fn_output, _i, i$, len$, i, _tmp;
+      _di = [];
+      _fn = argu[0].toString();
+      fn = _fn.replace(/\s/g, '').split('function(')[1].split(')')[0].split(',');
+      fn_output = _fn.replace(_fn.split('{')[0], '');
+      _i = '';
+      for (i$ = 0, len$ = fn.length; i$ < len$; ++i$) {
+        i = fn[i$];
+        _di.push(i);
+        _i += i + ' = kakulus.' + i.replace('$', '') + ';';
+      }
+      _tmp = '(function () {' + _i + _fn.split('{')[1].replace('{', '') + ')()';
+      eval(_tmp);
       return new _this.Define(argu, _this);
     };
     this._factory = function(argu, _this){
-      console.log('1245');
       return new _this.Define(argu, _this);
     };
     this.Define = function(argu, _this){
@@ -16,9 +27,8 @@
         return argu[0]();
       };
       this.algo = function(){
-        var argu2, fn;
-        argu2 = arguments;
-        fn = argu2[0];
+        var argu;
+        argu = arguments;
         return new _this._algo(argu, _this);
       };
       this.factory = function(){
@@ -333,7 +343,7 @@
       return this.error();
     },
     error: function(){
-      return !deepEq$(this.msg.length, 0, '===');
+      return !this.msg.length;
     }
   };
   Kakulus.prototype.generator = _generator;
@@ -344,94 +354,10 @@
   Kakulus.prototype.Arr = _Arr;
   Kakulus.prototype.Limit = _Limit;
   Kakulus.prototype.Zigma = _Zigma;
-  console.log(kakulus.define('sdffsd', ['sdffsd']).algo(function($array, $det, $analysis){
+  kakulus.define('sdffsd', ['sdffsd']).algo(function($main){
+    $main.slope(['123', '456']);
     return console.log('123');
   }).factory(function(){
     return console.log('hifactory');
-  }));
-  kakulus.main.slope(['123', '456']);
-  function deepEq$(x, y, type){
-    var toString = {}.toString, hasOwnProperty = {}.hasOwnProperty,
-        has = function (obj, key) { return hasOwnProperty.call(obj, key); };
-    var first = true;
-    return eq(x, y, []);
-    function eq(a, b, stack) {
-      var className, length, size, result, alength, blength, r, key, ref, sizeB;
-      if (a == null || b == null) { return a === b; }
-      if (a.__placeholder__ || b.__placeholder__) { return true; }
-      if (a === b) { return a !== 0 || 1 / a == 1 / b; }
-      className = toString.call(a);
-      if (toString.call(b) != className) { return false; }
-      switch (className) {
-        case '[object String]': return a == String(b);
-        case '[object Number]':
-          return a != +a ? b != +b : (a == 0 ? 1 / a == 1 / b : a == +b);
-        case '[object Date]':
-        case '[object Boolean]':
-          return +a == +b;
-        case '[object RegExp]':
-          return a.source == b.source &&
-                 a.global == b.global &&
-                 a.multiline == b.multiline &&
-                 a.ignoreCase == b.ignoreCase;
-      }
-      if (typeof a != 'object' || typeof b != 'object') { return false; }
-      length = stack.length;
-      while (length--) { if (stack[length] == a) { return true; } }
-      stack.push(a);
-      size = 0;
-      result = true;
-      if (className == '[object Array]') {
-        alength = a.length;
-        blength = b.length;
-        if (first) { 
-          switch (type) {
-          case '===': result = alength === blength; break;
-          case '<==': result = alength <= blength; break;
-          case '<<=': result = alength < blength; break;
-          }
-          size = alength;
-          first = false;
-        } else {
-          result = alength === blength;
-          size = alength;
-        }
-        if (result) {
-          while (size--) {
-            if (!(result = size in a == size in b && eq(a[size], b[size], stack))){ break; }
-          }
-        }
-      } else {
-        if ('constructor' in a != 'constructor' in b || a.constructor != b.constructor) {
-          return false;
-        }
-        for (key in a) {
-          if (has(a, key)) {
-            size++;
-            if (!(result = has(b, key) && eq(a[key], b[key], stack))) { break; }
-          }
-        }
-        if (result) {
-          sizeB = 0;
-          for (key in b) {
-            if (has(b, key)) { ++sizeB; }
-          }
-          if (first) {
-            if (type === '<<=') {
-              result = size < sizeB;
-            } else if (type === '<==') {
-              result = size <= sizeB
-            } else {
-              result = size === sizeB;
-            }
-          } else {
-            first = false;
-            result = size === sizeB;
-          }
-        }
-      }
-      stack.pop();
-      return result;
-    }
-  }
+  });
 }).call(this);

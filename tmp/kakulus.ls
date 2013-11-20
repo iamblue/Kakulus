@@ -1,18 +1,29 @@
 Kakulus = ->
   _define = {}    #include kakulus.define
   this._algo = (argu,_this)-> 
-    console.log \123 
+    # console.log \123 
+    _di = []
+    _fn = argu[0].toString()
+    fn = _fn.replace(/\s/g,'').split('function(')[1].split(')')[0].split(',')
+    fn_output = _fn.replace(_fn.split('{')[0],'')
+    _i = ''
+    for i in fn
+      _di.push i
+      _i += i+' = kakulus.'+i.replace('$','')+';'
+    _tmp = '(function () {'+_i+_fn.split('{')[1].replace('{','')+')()'
+    #console.log _tmp
+    eval(_tmp)
     new _this.Define(argu,_this)
   this._factory = (argu,_this)-> 
-    console.log \1245 
+    # console.log \1245 
     new _this.Define(argu,_this)
   this.Define  = (argu,_this)->
     _define.[argu[0]] = ->
       argu[0]()
     this.algo = ->
-      argu2 = arguments
-      fn = argu2[0]
-      new _this._algo(argu,_this)
+      argu = arguments
+       
+      new _this._algo(argu,_this,)
     this.factory = ->
       #like angular factory
       new _this._factory(argu,_this)
@@ -286,7 +297,7 @@ _validator =
   check : (data)->
     this.error()
   error : ->
-    this.msg.length !== 0
+    !@msg.length
 
 Kakulus.prototype.generator = _generator
 Kakulus.prototype.main = _main 
@@ -301,9 +312,10 @@ Kakulus.prototype.Zigma = _Zigma
 #=============================================
 #Demo
 #==============================================
-
-console.log kakulus.define('sdffsd', ['sdffsd']).algo(
-  ($array,$det,$analysis)->
+# 
+kakulus.define('sdffsd', ['sdffsd']).algo(
+  ($main)->
+    $main.slope(['123','456'])
     console.log \123
 ).factory(
   ->
@@ -313,7 +325,6 @@ console.log kakulus.define('sdffsd', ['sdffsd']).algo(
 
 # kakulus.define('sdffsd', ['sdffsd']).algo(-> console.log(123))
 
-kakulus.main.slope(['123','456'])
 # 為何kakulus.main.slope(['123','456'])不能執行？
 # 因為要先new過才能直接抓prototype的東西
 
