@@ -1,24 +1,22 @@
 (function(){
-  var Kakulus, kakulus, _generator, _main, _Zigma, _Limit, _Arr, _det, _analysis, _validator, arr_tmp;
+  var Kakulus, kakulus, _generator, _main, _Zigma, _Limit, _Arr, _det, _analysis, _validator;
   Kakulus = function(){
     var _define;
     _define = {};
     this._algo = function(argu, _this){
-      var args, _fn, fn, fn_output, _i, _u, i$, len$, i, _tmp;
-      args = Array.prototype.slice.call(argu).splice(0);
-      console.log(args);
+      var _fn, fn, invoke;
       _fn = argu[0].toString();
       fn = _fn.replace(/\s/g, '').split('function(')[1].split(')')[0].split(',');
-      fn_output = _fn.replace(_fn.split('{')[0], '');
-      _i = '';
-      _u = '';
-      for (i$ = 0, len$ = fn.length; i$ < len$; ++i$) {
-        i = fn[i$];
-        _u += i;
-        _i += i + ' = kakulus.' + i.replace('$', '') + ';';
-      }
-      _tmp = '(function () {' + _i + _fn.split('{')[1].replace('{', '') + ')()';
-      eval(_tmp);
+      invoke = function(){
+        var obj, i$, ref$, len$, i;
+        obj = {};
+        for (i$ = 0, len$ = (ref$ = fn).length; i$ < len$; ++i$) {
+          i = ref$[i$];
+          obj[i] = kakulus[i.replace('$', '')];
+        }
+        return argu[0](obj[fn[0]], obj[fn[1]], obj[fn[2]], obj[fn[3]], obj[fn[4]], obj[fn[5]], obj[fn[6]], obj[fn[7]], obj[fn[8]], obj[fn[9]]);
+      };
+      invoke.apply(argu[0], fn);
       return new _this.Define(argu, _this);
     };
     this._factory = function(argu, _this){
@@ -356,23 +354,17 @@
   Kakulus.prototype.Arr = _Arr;
   Kakulus.prototype.Limit = _Limit;
   Kakulus.prototype.Zigma = _Zigma;
-  kakulus.define('main', []).algo(function($main, $generator){
+  kakulus.define('main', []).algo(function($main, $generator, $arr){
     var arr_tmp;
     arr_tmp = [5, 0, 0, 0, 3, 1];
     console.log($generator.func(arr_tmp));
-    $main.slope(['123', '456']);
     return console.log('123');
   }).factory(function(){
     return console.log('hifactory');
   });
   kakulus.define('main2', []).algo(function($main){
-    var arr_tmp;
-    arr_tmp = [5, 0, 0, 0, 3, 1];
-    console.log($generator.func(arr_tmp));
     return $main.slope(['123', '456']);
   }).factory(function(){
     return console.log('hifactory');
   });
-  arr_tmp = [5, 0, 0, 0, 3, 1];
-  kakulus.generator.func(arr_tmp);
 }).call(this);
