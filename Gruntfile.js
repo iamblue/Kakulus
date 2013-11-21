@@ -33,14 +33,24 @@ module.exports = function(grunt) {
     },
     concat: {
       livescript: {
-        src: ['<%= srcDir %>/*.ls','<%= srcDir %>/**/*.ls'],
+        src: ['<%= srcDir %>/*.ls','<%= srcDir %>/kakulus.ls',
+        '<%= srcDir %>/*.ls','<%= srcDir %>/lib/main.ls',
+        '<%= srcDir %>/*.ls','<%= srcDir %>/lib/array.ls',
+        '<%= srcDir %>/*.ls','<%= srcDir %>/lib/det.ls',
+        '<%= srcDir %>/*.ls','<%= srcDir %>/lib/generator.ls',
+        '<%= srcDir %>/*.ls','<%= srcDir %>/lib/limit.ls',
+        '<%= srcDir %>/*.ls','<%= srcDir %>/lib/zigma.ls',
+        '<%= srcDir %>/*.ls','<%= srcDir %>/lib/analysis.ls',
+        '<%= srcDir %>/*.ls','<%= srcDir %>/lib/validator.ls',
+        '<%= srcDir %>/*.ls','<%= srcDir %>/lib/demo.ls'
+        ],
         // dest: 'tmp/.ls-cache/<%= pkg.name %>.ls'
         dest: 'tmp/<%= pkg.name %>.ls'
         //options: { process: indentToLet }
       },
       dist: {
         src: [
-          '<%= srcDir %>/kakulus.ls',
+          'tmp/<%= pkg.name %>.ls',
         ],
         dest: '<%= baseFileName %>.js'
       }

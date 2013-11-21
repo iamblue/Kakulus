@@ -31,70 +31,6 @@ Kakulus = ->
   
 kakulus = new Kakulus()
 
-_generator = 
-  #產出
-  msg: -> 
-  detect: (x)->
-    #偵測是array還是function
-    _reg = /x/
-    _reg.test(x)
-    _output = ''
-    if _reg.test(x)
-      _output = this.arr(x)
-    else        
-      _output = this.func(x)
-    _output
-  _xfunc: (x)->
-    #列出x的array
-    _tmparr = []
-    for i from x.length-1 to 0 by -1
-      if i == 0
-        _tmparr.push('')
-      else 
-        if i == 1 
-          _tmparr.push('x')
-        else
-          _tmparr.push('x^'+i)
-    _tmparr
-  func: (x)->
-    #把array 產生出 fucntion 
-    _x = this._xfunc(x)
-    _output = ''
-    for i from 0 to x.length-1 by 1
-      if(x[i] !=0)
-        if(i == x.length-1)
-          _output += x[i]+_x[i]
-        else          
-          if x[i] != 1
-            _output += x[i]+_x[i]+'+'
-          else
-            _output += _x[i]+'+'
-    _output
-  arr: (x)->
-    #把function 轉成 array
-    _tmp-x = x.split('+')
-    _maxtime = 0
-    _tmpmaxtime = 0
-    _output = []
-    for i in _tmp-x 
-      _arr = i.split('^')
-      if(!_arr[1])
-        _arr[1] = 0
-      if _tmpmaxtime < _arr[1]
-        _tmpmaxtime = _arr[1]
-    for i from 0 to _tmpmaxtime by 1
-      _output.push('0') 
-    for i from 0 to _tmp-x.length-1 by 1
-      item = _tmp-x[i].split('^')
-      if !item[1]
-        item[1] = 0
-      if item[1] == 0 && item[0] != 0 
-        _output[(Number(_tmpmaxtime))] = item[0] 
-      if Number(item[1]) != 0
-        _output[ (Number(_tmpmaxtime) - Number(item[1]))] = item[0].replace('x','')  
-    _output  
- 
-#ka -> console.log 123 
 
 _main =
   #主程式 
@@ -213,16 +149,7 @@ _main =
     #@x => function
     #min => 最小的範圍
     #max => 最大的範圍
-
-_Zigma = 
-  algo: (n,k,f) ->
-    #@n => 趨近
-    #@k => 起始值
-    #@f => function
-
-_Limit = 
-  algo: ->
-
+Kakulus.prototype.main = _main 
 _Arr = 
   _array: (x)->
     #把m x m矩陣變成1 x 2m
@@ -254,7 +181,7 @@ _Arr =
   multiple: (x,time)->
     #矩陣倍數成積
     _x = new this._array(x)
-    
+Kakulus.prototype.Arr = _Arr
 _det = 
   #行列式
   #用來解線性
@@ -263,8 +190,84 @@ _det =
 
   algo: (x)->
     this._init(x)
+Kakulus.prototype.det = _det 
+_generator = 
+  #產出
+  msg: -> 
+  detect: (x)->
+    #偵測是array還是function
+    _reg = /x/
+    _reg.test(x)
+    _output = '' 
+    if _reg.test(x)
+      _output = this.arr(x)
+    else        
+      _output = this.func(x)
+    _output
+  _xfunc: (x)->
+    #列出x的array
+    _tmparr = []
+    for i from x.length-1 to 0 by -1
+      if i == 0
+        _tmparr.push('')
+      else 
+        if i == 1 
+          _tmparr.push('x')
+        else
+          _tmparr.push('x^'+i)
+    _tmparr
+  func: (x)->
+    #把array 產生出 fucntion 
+    _x = this._xfunc(x)
+    _output = ''
+    for i from 0 to x.length-1 by 1
+      if(x[i] !=0)
+        if(i == x.length-1)
+          _output += x[i]+_x[i]
+        else          
+          if x[i] != 1
+            _output += x[i]+_x[i]+'+'
+          else
+            _output += _x[i]+'+'
+    _output
+  arr: (x)->
+    #把function 轉成 array
+    _tmp-x = x.split('+')
+    _maxtime = 0
+    _tmpmaxtime = 0
+    _output = []
+    for i in _tmp-x 
+      _arr = i.split('^')
+      if(!_arr[1])
+        _arr[1] = 0
+      if _tmpmaxtime < _arr[1]
+        _tmpmaxtime = _arr[1]
+    for i from 0 to _tmpmaxtime by 1
+      _output.push('0') 
+    for i from 0 to _tmp-x.length-1 by 1
+      item = _tmp-x[i].split('^')
+      if !item[1]
+        item[1] = 0
+      if item[1] == 0 && item[0] != 0 
+        _output[(Number(_tmpmaxtime))] = item[0] 
+      if Number(item[1]) != 0
+        _output[ (Number(_tmpmaxtime) - Number(item[1]))] = item[0].replace('x','')  
+    _output 
+
+Kakulus.prototype.generator = _generator 
+
+_Limit = 
+  algo: ->
 
 
+Kakulus.prototype.Limit = _Limit
+_Zigma = 
+  algo: (n,k,f) ->
+    #@n => 趨近
+    #@k => 起始值
+    #@f => function
+
+Kakulus.prototype.Zigma = _Zigma 
 _analysis = 
   #數值分析 
   _init : ->
@@ -283,6 +286,7 @@ _analysis =
     #最小平方法
     m = number -2
 
+Kakulus.prototype.analysis = _analysis 
 _validator = 
   #驗證錯誤訊息
   types : ->{}
@@ -292,15 +296,7 @@ _validator =
   error : ->
     !@msg.length
 
-Kakulus.prototype.generator = _generator
-Kakulus.prototype.main = _main 
 Kakulus.prototype.validator = _validator 
-Kakulus.prototype.analysis = _analysis 
-Kakulus.prototype.det = _det 
-Kakulus.prototype.Arr = _Arr
-Kakulus.prototype.Limit = _Limit
-Kakulus.prototype.Zigma = _Zigma 
-
 
 #=============================================
 #Demo

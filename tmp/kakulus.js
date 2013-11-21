@@ -1,5 +1,5 @@
 (function(){
-  var Kakulus, kakulus, _generator, _main, _Zigma, _Limit, _Arr, _det, _analysis, _validator;
+  var Kakulus, kakulus, _main, _Arr, _det, _generator, _Limit, _Zigma, _analysis, _validator;
   Kakulus = function(){
     var _define;
     _define = {};
@@ -46,93 +46,6 @@
     }
   };
   kakulus = new Kakulus();
-  _generator = {
-    msg: function(){},
-    detect: function(x){
-      var _reg, _output;
-      _reg = /x/;
-      _reg.test(x);
-      _output = '';
-      if (_reg.test(x)) {
-        _output = this.arr(x);
-      } else {
-        _output = this.func(x);
-      }
-      return _output;
-    },
-    _xfunc: function(x){
-      var _tmparr, i$, i;
-      _tmparr = [];
-      for (i$ = x.length - 1; i$ >= 0; --i$) {
-        i = i$;
-        if (i === 0) {
-          _tmparr.push('');
-        } else {
-          if (i === 1) {
-            _tmparr.push('x');
-          } else {
-            _tmparr.push('x^' + i);
-          }
-        }
-      }
-      return _tmparr;
-    },
-    func: function(x){
-      var _x, _output, i$, to$, i;
-      _x = this._xfunc(x);
-      _output = '';
-      for (i$ = 0, to$ = x.length - 1; i$ <= to$; ++i$) {
-        i = i$;
-        if (x[i] !== 0) {
-          if (i === x.length - 1) {
-            _output += x[i] + _x[i];
-          } else {
-            if (x[i] !== 1) {
-              _output += x[i] + _x[i] + '+';
-            } else {
-              _output += _x[i] + '+';
-            }
-          }
-        }
-      }
-      return _output;
-    },
-    arr: function(x){
-      var _tmpX, _maxtime, _tmpmaxtime, _output, i$, len$, i, _arr, to$, item;
-      _tmpX = x.split('+');
-      _maxtime = 0;
-      _tmpmaxtime = 0;
-      _output = [];
-      for (i$ = 0, len$ = _tmpX.length; i$ < len$; ++i$) {
-        i = _tmpX[i$];
-        _arr = i.split('^');
-        if (!_arr[1]) {
-          _arr[1] = 0;
-        }
-        if (_tmpmaxtime < _arr[1]) {
-          _tmpmaxtime = _arr[1];
-        }
-      }
-      for (i$ = 0; i$ <= _tmpmaxtime; ++i$) {
-        i = i$;
-        _output.push('0');
-      }
-      for (i$ = 0, to$ = _tmpX.length - 1; i$ <= to$; ++i$) {
-        i = i$;
-        item = _tmpX[i].split('^');
-        if (!item[1]) {
-          item[1] = 0;
-        }
-        if (item[1] === 0 && item[0] !== 0) {
-          _output[Number(_tmpmaxtime)] = item[0];
-        }
-        if (Number(item[1]) !== 0) {
-          _output[Number(_tmpmaxtime) - Number(item[1])] = item[0].replace('x', '');
-        }
-      }
-      return _output;
-    }
-  };
   _main = {
     _x: function(x){
       return x.toLowerCase();
@@ -252,12 +165,7 @@
     },
     maxvalue: function(x, min, max){}
   };
-  _Zigma = {
-    algo: function(n, k, f){}
-  };
-  _Limit = {
-    algo: function(){}
-  };
+  Kakulus.prototype.main = _main;
   _Arr = {
     _array: function(x){
       var _tmpA, i$, ref$, len$, i, j$, ref1$, len1$, _i;
@@ -307,12 +215,110 @@
       return _x = new this._array(x);
     }
   };
+  Kakulus.prototype.Arr = _Arr;
   _det = {
     _init: function(x){},
     algo: function(x){
       return this._init(x);
     }
   };
+  Kakulus.prototype.det = _det;
+  _generator = {
+    msg: function(){},
+    detect: function(x){
+      var _reg, _output;
+      _reg = /x/;
+      _reg.test(x);
+      _output = '';
+      if (_reg.test(x)) {
+        _output = this.arr(x);
+      } else {
+        _output = this.func(x);
+      }
+      return _output;
+    },
+    _xfunc: function(x){
+      var _tmparr, i$, i;
+      _tmparr = [];
+      for (i$ = x.length - 1; i$ >= 0; --i$) {
+        i = i$;
+        if (i === 0) {
+          _tmparr.push('');
+        } else {
+          if (i === 1) {
+            _tmparr.push('x');
+          } else {
+            _tmparr.push('x^' + i);
+          }
+        }
+      }
+      return _tmparr;
+    },
+    func: function(x){
+      var _x, _output, i$, to$, i;
+      _x = this._xfunc(x);
+      _output = '';
+      for (i$ = 0, to$ = x.length - 1; i$ <= to$; ++i$) {
+        i = i$;
+        if (x[i] !== 0) {
+          if (i === x.length - 1) {
+            _output += x[i] + _x[i];
+          } else {
+            if (x[i] !== 1) {
+              _output += x[i] + _x[i] + '+';
+            } else {
+              _output += _x[i] + '+';
+            }
+          }
+        }
+      }
+      return _output;
+    },
+    arr: function(x){
+      var _tmpX, _maxtime, _tmpmaxtime, _output, i$, len$, i, _arr, to$, item;
+      _tmpX = x.split('+');
+      _maxtime = 0;
+      _tmpmaxtime = 0;
+      _output = [];
+      for (i$ = 0, len$ = _tmpX.length; i$ < len$; ++i$) {
+        i = _tmpX[i$];
+        _arr = i.split('^');
+        if (!_arr[1]) {
+          _arr[1] = 0;
+        }
+        if (_tmpmaxtime < _arr[1]) {
+          _tmpmaxtime = _arr[1];
+        }
+      }
+      for (i$ = 0; i$ <= _tmpmaxtime; ++i$) {
+        i = i$;
+        _output.push('0');
+      }
+      for (i$ = 0, to$ = _tmpX.length - 1; i$ <= to$; ++i$) {
+        i = i$;
+        item = _tmpX[i].split('^');
+        if (!item[1]) {
+          item[1] = 0;
+        }
+        if (item[1] === 0 && item[0] !== 0) {
+          _output[Number(_tmpmaxtime)] = item[0];
+        }
+        if (Number(item[1]) !== 0) {
+          _output[Number(_tmpmaxtime) - Number(item[1])] = item[0].replace('x', '');
+        }
+      }
+      return _output;
+    }
+  };
+  Kakulus.prototype.generator = _generator;
+  _Limit = {
+    algo: function(){}
+  };
+  Kakulus.prototype.Limit = _Limit;
+  _Zigma = {
+    algo: function(n, k, f){}
+  };
+  Kakulus.prototype.Zigma = _Zigma;
   _analysis = {
     _init: function(){},
     _lsmInit: function(arr, number){
@@ -332,6 +338,7 @@
       return m = number(-2);
     }
   };
+  Kakulus.prototype.analysis = _analysis;
   _validator = {
     types: function(){
       return {};
@@ -346,14 +353,7 @@
       return !this.msg.length;
     }
   };
-  Kakulus.prototype.generator = _generator;
-  Kakulus.prototype.main = _main;
   Kakulus.prototype.validator = _validator;
-  Kakulus.prototype.analysis = _analysis;
-  Kakulus.prototype.det = _det;
-  Kakulus.prototype.Arr = _Arr;
-  Kakulus.prototype.Limit = _Limit;
-  Kakulus.prototype.Zigma = _Zigma;
   kakulus.define('main', []).algo(function($main, $generator, $arr){
     var arr_tmp;
     arr_tmp = [5, 0, 0, 0, 3, 1];
