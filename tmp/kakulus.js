@@ -8,13 +8,16 @@
       _fn = argu[0].toString();
       fn = _fn.replace(/\s/g, '').split('function(')[1].split(')')[0].split(',');
       invoke = function(){
-        var obj, i$, ref$, len$, i;
+        var obj, objarr, i$, ref$, len$, i;
         obj = {};
+        objarr = [];
+        console.log(fn);
         for (i$ = 0, len$ = (ref$ = fn).length; i$ < len$; ++i$) {
           i = ref$[i$];
           obj[i] = kakulus[i.replace('$', '')];
+          objarr.push(kakulus[i.replace('$', '')]);
         }
-        return argu[0](obj[fn[0]], obj[fn[1]], obj[fn[2]], obj[fn[3]], obj[fn[4]], obj[fn[5]], obj[fn[6]], obj[fn[7]], obj[fn[8]], obj[fn[9]]);
+        return argu[0].apply(argu[0], objarr);
       };
       invoke.apply(argu[0], fn);
       return new _this.Define(argu, _this);
@@ -213,6 +216,43 @@
     multiple: function(x, time){
       var _x;
       return _x = new this._array(x);
+    },
+    array2formula: function(arr, _n){
+      var n, y, _obj, i$, len$, i;
+      n = 1;
+      y = 0;
+      _obj = {};
+      _obj[0] = [];
+      for (i$ = 0, len$ = arr.length; i$ < len$; ++i$) {
+        i = arr[i$];
+        if (n <= _n) {
+          n += 1;
+          _obj[y].push(i);
+        } else {
+          n = 1;
+          y += 1;
+          _obj[y] = [];
+          _obj[y].push(i);
+        }
+      }
+      return _obj;
+    },
+    arraySimplified: function(arr, num){
+      var _obj, i$, to$, i, _i;
+      num = num.split('x');
+      _obj = this.array2formula(arr, num[1]);
+      for (i$ = 0, to$ = _obj[0].length - 1; i$ <= to$; ++i$) {
+        i = i$;
+        _i = _obj[0][i] * _obj[1][0];
+        _obj[0][i] = _i;
+      }
+      for (i$ = 0, to$ = _obj[1].length - 1; i$ <= to$; ++i$) {
+        i = i$;
+        _i = _obj[1][i] * _obj[0][0];
+        _obj[1][i] = _i;
+      }
+      console.log(_obj[0]);
+      return console.log(_obj[1]);
     }
   };
   Kakulus.prototype.Arr = _Arr;
@@ -333,9 +373,46 @@
       }
       return results$;
     },
-    lsm: function(arr, number){
-      var m;
-      return m = number(-2);
+    lsm: function(arr){
+      var n, m, _map, _map2, o, i$, to$, i, j$, to1$, _i, x, x2, y, xy, len$;
+      n = arr.length;
+      m = n - 2;
+      _map = [];
+      _map.push(n);
+      _map2 = [];
+      o = {};
+      for (i$ = 0, to$ = m - 1; i$ <= to$; ++i$) {
+        i = i$;
+        o[i] = [];
+        for (j$ = 0, to1$ = m - 1; j$ <= to1$; ++j$) {
+          _i = j$;
+          o[i].push(_i + i);
+        }
+      }
+      console.log(o);
+      x = 0;
+      x2 = 0;
+      y = 0;
+      xy = 0;
+      for (i$ = 0, len$ = arr.length; i$ < len$; ++i$) {
+        i = arr[i$];
+        x += i.x;
+        x2 += i.x * i.x;
+        y += i.y;
+        xy += i.x * i.y;
+      }
+      console.log(x);
+      console.log(x2);
+      console.log(y);
+      console.log(xy);
+      _map.push(x);
+      _map.push(x2);
+      _map2.push(y);
+      _map2.push(xy);
+      console.log(_map);
+      console.log(_map2);
+      _map.push(y);
+      return _map.push(xy);
     }
   };
   Kakulus.prototype.analysis = _analysis;

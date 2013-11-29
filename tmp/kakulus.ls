@@ -6,9 +6,12 @@ Kakulus = ->
     fn = _fn.replace(/\s/g,'').split('function(')[1].split(')')[0].split(',')
     invoke = ->
       obj = {}
+      objarr = []
+      console.log fn
       for i in fn 
-        obj[i] = kakulus.[i.replace('$','')] 
-      argu[0](obj[fn[0]],obj[fn[1]],obj[fn[2]],obj[fn[3]],obj[fn[4]],obj[fn[5]],obj[fn[6]],obj[fn[7]],obj[fn[8]],obj[fn[9]])
+        obj[i] = kakulus.[i.replace('$','')]
+        objarr.push(kakulus.[i.replace('$','')])
+      argu[0].apply(argu[0],objarr)
     invoke.apply(argu[0] ,fn) 
     new _this.Define(argu,_this)
   this._factory = (argu,_this)-> 
@@ -181,6 +184,38 @@ _Arr =
   multiple: (x,time)->
     #矩陣倍數成積
     _x = new this._array(x)
+  array2formula : (arr,_n)->
+    n = 1
+    y = 0
+    _obj = {}
+    _obj[0] = []
+    for i in arr 
+      if n <= _n
+        n += 1
+        _obj[y].push(i)
+      else
+        n = 1
+        y += 1
+        _obj[y] = []
+        _obj[y].push(i)
+    _obj
+  array-simplified: (arr,num) ->
+    #[2,3,4,5,6,6],2x3
+    num = num.split('x');
+    _obj = this.array2formula(arr, num[1])
+    # console.log _obj[0][0]*
+    for i from 0 to _obj[0].length-1 by 1 
+      _i = _obj[0][i]*_obj[1][0]
+      _obj[0][i] = _i
+    for i from 0 to _obj[1].length-1 by 1
+      _i = _obj[1][i]*_obj[0][0]
+      _obj[1][i] = _i
+    console.log _obj[0]
+    console.log _obj[1]
+    
+    # _obj[0]
+
+
 Kakulus.prototype.Arr = _Arr
 _det = 
   #行列式
@@ -261,6 +296,9 @@ _Limit =
 
 
 Kakulus.prototype.Limit = _Limit
+# _Quaternion =
+  
+# Kakulus.prototype.Quaternion = _Quaternion
 _Zigma = 
   algo: (n,k,f) ->
     #@n => 趨近
@@ -281,10 +319,43 @@ _analysis =
     for i in arr
       zigmax += i.x
 
-  lsm : (arr,number)->
+  lsm : (arr)->
     #least sequare method
     #最小平方法
-    m = number -2
+    n = arr.length
+    m = n-2
+    _map = []
+    _map.push(n)
+    _map2 = []
+
+    o = {}
+    for i from 0 to m-1 by 1
+      o.[i] = []
+      for _i from 0 to m-1 by 1
+        o.[i].push _i+i
+    console.log o
+    x = 0
+    x2 = 0
+    y = 0
+    xy = 0
+    for i in arr
+      x += i.x
+      x2 += i.x*i.x
+      y += i.y
+      xy += i.x*i.y
+    console.log x
+    console.log x2
+    console.log y
+    console.log xy
+    _map.push x
+    _map.push x2
+    _map2.push y
+    _map2.push xy
+    console.log _map
+    console.log _map2
+    _map.push y
+    _map.push xy
+
 
 Kakulus.prototype.analysis = _analysis 
 _validator = 
@@ -301,6 +372,18 @@ Kakulus.prototype.validator = _validator
 #=============================================
 #Demo
 #==============================================
+
+
+
+# _Arr.array-simplified([2,3,5,6],'2x2')
+
+
+
+
+# _tmparr = [{x:-1.3,y:0.103},{x:-0.1,y:1.099},{x:0.2,y:0.808},{x:1.3,y:1.897}]
+# _analysis.lsm(_tmparr)
+
+
 # 
 kakulus.define('main', []).algo(
   ($main,$generator,$arr)->

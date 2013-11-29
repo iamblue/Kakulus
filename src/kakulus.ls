@@ -6,9 +6,12 @@ Kakulus = ->
     fn = _fn.replace(/\s/g,'').split('function(')[1].split(')')[0].split(',')
     invoke = ->
       obj = {}
+      objarr = []
+      console.log fn
       for i in fn 
-        obj[i] = kakulus.[i.replace('$','')] 
-      argu[0](obj[fn[0]],obj[fn[1]],obj[fn[2]],obj[fn[3]],obj[fn[4]],obj[fn[5]],obj[fn[6]],obj[fn[7]],obj[fn[8]],obj[fn[9]])
+        obj[i] = kakulus.[i.replace('$','')]
+        objarr.push(kakulus.[i.replace('$','')])
+      argu[0].apply(argu[0],objarr)
     invoke.apply(argu[0] ,fn) 
     new _this.Define(argu,_this)
   this._factory = (argu,_this)-> 

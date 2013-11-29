@@ -39,6 +39,7 @@ module.exports = function(grunt) {
         '<%= srcDir %>/*.ls','<%= srcDir %>/lib/det.ls',
         '<%= srcDir %>/*.ls','<%= srcDir %>/lib/generator.ls',
         '<%= srcDir %>/*.ls','<%= srcDir %>/lib/limit.ls',
+        '<%= srcDir %>/*.ls','<%= srcDir %>/lib/quaternion.ls',
         '<%= srcDir %>/*.ls','<%= srcDir %>/lib/zigma.ls',
         '<%= srcDir %>/*.ls','<%= srcDir %>/lib/analysis.ls',
         '<%= srcDir %>/*.ls','<%= srcDir %>/lib/validator.ls',
