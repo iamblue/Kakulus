@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "dependencies": {
-    "LiveScript": "~1.2.0",
-    "jison": "~0.4.13"
+    "LiveScript": "~1.2.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

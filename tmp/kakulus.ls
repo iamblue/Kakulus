@@ -7,7 +7,7 @@ Kakulus = ->
     invoke = ->
       obj = {}
       objarr = []
-      console.log fn
+      #console.log fn
       for i in fn 
         obj[i] = kakulus.[i.replace('$','')]
         objarr.push(kakulus.[i.replace('$','')])
@@ -212,7 +212,6 @@ _Arr =
       _obj[1][i] = _i
     console.log _obj[0]
     console.log _obj[1]
-    
     # _obj[0]
 
 
@@ -296,9 +295,6 @@ _Limit =
 
 
 Kakulus.prototype.Limit = _Limit
-# _Quaternion =
-  
-# Kakulus.prototype.Quaternion = _Quaternion
 _Zigma = 
   algo: (n,k,f) ->
     #@n => 趨近
@@ -377,13 +373,8 @@ Kakulus.prototype.validator = _validator
 
 # _Arr.array-simplified([2,3,5,6],'2x2')
 
-
-
-
 # _tmparr = [{x:-1.3,y:0.103},{x:-0.1,y:1.099},{x:0.2,y:0.808},{x:1.3,y:1.897}]
 # _analysis.lsm(_tmparr)
-
-
 # 
 kakulus.define('main', []).algo(
   ($main,$generator,$arr)->

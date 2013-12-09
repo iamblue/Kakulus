@@ -7,7 +7,7 @@ Kakulus = ->
     invoke = ->
       obj = {}
       objarr = []
-      console.log fn
+      #console.log fn
       for i in fn 
         obj[i] = kakulus.[i.replace('$','')]
         objarr.push(kakulus.[i.replace('$','')])

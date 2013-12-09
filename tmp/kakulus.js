@@ -11,7 +11,6 @@
         var obj, objarr, i$, ref$, len$, i;
         obj = {};
         objarr = [];
-        console.log(fn);
         for (i$ = 0, len$ = (ref$ = fn).length; i$ < len$; ++i$) {
           i = ref$[i$];
           obj[i] = kakulus[i.replace('$', '')];

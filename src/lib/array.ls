@@ -57,7 +57,6 @@ _Arr =
       _obj[1][i] = _i
     console.log _obj[0]
     console.log _obj[1]
-    
     # _obj[0]
 
 
