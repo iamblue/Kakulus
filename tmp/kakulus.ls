@@ -174,7 +174,7 @@ _Arr =
         switch(type)
         case 'add'  then _value.push(Number(_x[i])+Number(_y[i]))
         case 'sub'  then _value.push(Number(_x[i])-Number(_y[i]))
-    _value
+    _value  
   add: (x,y)->
     #x,y 都必須是相加矩陣
     this.ab-algo(x,y,'add')  
@@ -185,34 +185,26 @@ _Arr =
     #矩陣倍數成積
     _x = new this._array(x)
   array2formula : (arr,n,m)->
-    # n = 1
-    # y = 0
-    # _obj = {}
-    # _obj[0] = []
-    # for i in arr 
-    #   if n <= _n
-    #     n += 1
-    #     _obj[y].push(i)
-    #   else
-    #     console.log y
-    #     n = 1
-    #     y += 1
-    #     _obj[y] = []
-    #     _obj[y].push(i)
     l = arr.length
     n = Number(n)
     m = Number(m)
+    console.log m
     _obj = {}
-    # for y from 0 to l/n-1 by 1
-    #   _obj[y] = []
-    # for i from 0 to Object.keys(_obj).length-1 by 1
-    #   for _i from 0 to m-1 by 1
-    #     _obj[i].push arr[_i+m]
-    # _obj = {}
-    # for y from 0 to m by 1
-    #   _obj[y] = []
-    #   for i from 0 to l/n-1 by 1
-    #     _obj[y].push(arr[y+i])
+    _t = 1
+    _n = 0
+    _obj[0] = []
+    for y from 0 to l-1 by 1
+      if (_t<=m)
+        if(_t == m)
+          _t = 1
+          _n = _n+1 
+          _obj[_n]= []  
+        else
+          if(_obj[0].length ==0)
+            _t = 1
+          else      
+            _t = _t+1
+        _obj[_n].push(arr[y])
     _obj
   array-simplified: (arr,num) ->
     #[2,3,4,5,6,6],2x3
@@ -220,7 +212,7 @@ _Arr =
     # _obj = this.array2formula(arr, num[1])
     # console.log _obj
   _multiplied: (arr,n,m) ->
-    #矩陣香橙的另外一邊
+    #矩陣相成的另外一邊
     l = arr.length
     n = Number(n)
     m = Number(m)
@@ -398,7 +390,7 @@ Kakulus.prototype.validator = _validator
 
 
 # _Arr._multiplied([2,3,4,5,6,6],2,3);
-_Arr.multiplied([2,3,4,5,6,6],'2x3',[2,3,4,5,6,6],'2x3')
+_Arr.multiplied([2,3,4,5,6,6],'3x2',[2,3,4,5,6,6],'2x3')
 # _Arr.array-simplified([2,3,4,5,6,6],'2x3')
 
 # _tmparr = [{x:-1.3,y:0.103},{x:-0.1,y:1.099},{x:0.2,y:0.808},{x:1.3,y:1.897}]

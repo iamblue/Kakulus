@@ -1,4 +1,4 @@
-/*! kakulus - v0.0.1 - 2013-12-09 | Copyright (c) 2013 Po-Ju Chen <tonyone0902@gmail.com> */
+/*! kakulus - v0.0.1 - 2013-12-10 | Copyright (c) 2013 Po-Ju Chen <tonyone0902@gmail.com> */
 
 (function() {
     var Kakulus, kakulus, _main, _Arr, _det, _generator, _Limit, _Zigma, _analysis, _validator;
@@ -221,11 +221,32 @@
             return _x = new this._array(x);
         },
         array2formula: function(arr, n, m) {
-            var l, _obj;
+            var l, _obj, _t, _n, i$, to$, y;
             l = arr.length;
             n = Number(n);
             m = Number(m);
+            console.log(m);
             _obj = {};
+            _t = 1;
+            _n = 0;
+            _obj[0] = [];
+            for (i$ = 0, to$ = l - 1; i$ <= to$; ++i$) {
+                y = i$;
+                if (_t <= m) {
+                    if (_t === m) {
+                        _t = 1;
+                        _n = _n + 1;
+                        _obj[_n] = [];
+                    } else {
+                        if (_obj[0].length === 0) {
+                            _t = 1;
+                        } else {
+                            _t = _t + 1;
+                        }
+                    }
+                    _obj[_n].push(arr[y]);
+                }
+            }
             return _obj;
         },
         arraySimplified: function(arr, num) {},
@@ -432,5 +453,5 @@
         }
     };
     Kakulus.prototype.validator = _validator;
-    _Arr.multiplied([ 2, 3, 4, 5, 6, 6 ], "2x3", [ 2, 3, 4, 5, 6, 6 ], "2x3");
+    _Arr.multiplied([ 2, 3, 4, 5, 6, 6 ], "3x2", [ 2, 3, 4, 5, 6, 6 ], "2x3");
 }).call(this);
