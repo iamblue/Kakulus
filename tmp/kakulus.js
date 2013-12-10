@@ -216,42 +216,40 @@
       var _x;
       return _x = new this._array(x);
     },
-    array2formula: function(arr, _n){
-      var n, y, _obj, i$, len$, i;
-      n = 1;
-      y = 0;
+    array2formula: function(arr, n, m){
+      var l, _obj;
+      l = arr.length;
+      n = Number(n);
+      m = Number(m);
       _obj = {};
-      _obj[0] = [];
-      for (i$ = 0, len$ = arr.length; i$ < len$; ++i$) {
-        i = arr[i$];
-        if (n <= _n) {
-          n += 1;
-          _obj[y].push(i);
-        } else {
-          n = 1;
-          y += 1;
-          _obj[y] = [];
-          _obj[y].push(i);
+      return _obj;
+    },
+    arraySimplified: function(arr, num){},
+    _multiplied: function(arr, n, m){
+      var l, _obj, i$, to$, y, j$, to1$, i;
+      l = arr.length;
+      n = Number(n);
+      m = Number(m);
+      _obj = {};
+      for (i$ = 0, to$ = m - 1; i$ <= to$; ++i$) {
+        y = i$;
+        _obj[y] = [];
+        for (j$ = 0, to1$ = n - 1; j$ <= to1$; ++j$) {
+          i = j$;
+          _obj[y].push(arr[i * m + y]);
         }
       }
       return _obj;
     },
-    arraySimplified: function(arr, num){
-      var _obj, i$, to$, i, _i;
-      num = num.split('x');
-      _obj = this.array2formula(arr, num[1]);
-      for (i$ = 0, to$ = _obj[0].length - 1; i$ <= to$; ++i$) {
-        i = i$;
-        _i = _obj[0][i] * _obj[1][0];
-        _obj[0][i] = _i;
-      }
-      for (i$ = 0, to$ = _obj[1].length - 1; i$ <= to$; ++i$) {
-        i = i$;
-        _i = _obj[1][i] * _obj[0][0];
-        _obj[1][i] = _i;
-      }
-      console.log(_obj[0]);
-      return console.log(_obj[1]);
+    multiplied: function(a1, n, a2, m){
+      var _a1, _a2;
+      console.log(a1);
+      n = n.split('x');
+      m = m.split('x');
+      _a1 = this.array2formula(a1, n[0], n[1]);
+      _a2 = this._multiplied(a2, m[0], m[1]);
+      console.log(_a1);
+      return console.log(_a2);
     }
   };
   Kakulus.prototype.Arr = _Arr;
@@ -430,17 +428,5 @@
     }
   };
   Kakulus.prototype.validator = _validator;
-  kakulus.define('main', []).algo(function($main, $generator, $arr){
-    var arr_tmp;
-    arr_tmp = [5, 0, 0, 0, 3, 1];
-    console.log($generator.func(arr_tmp));
-    return console.log('123');
-  }).factory(function(){
-    return console.log('hifactory');
-  });
-  kakulus.define('main2', []).algo(function($main){
-    return $main.slope(['123', '456']);
-  }).factory(function(){
-    return console.log('hifactory');
-  });
+  _Arr.multiplied([2, 3, 4, 5, 6, 6], '2x3', [2, 3, 4, 5, 6, 6], '2x3');
 }).call(this);

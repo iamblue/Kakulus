@@ -184,36 +184,63 @@ _Arr =
   multiple: (x,time)->
     #矩陣倍數成積
     _x = new this._array(x)
-  array2formula : (arr,_n)->
-    n = 1
-    y = 0
+  array2formula : (arr,n,m)->
+    # n = 1
+    # y = 0
+    # _obj = {}
+    # _obj[0] = []
+    # for i in arr 
+    #   if n <= _n
+    #     n += 1
+    #     _obj[y].push(i)
+    #   else
+    #     console.log y
+    #     n = 1
+    #     y += 1
+    #     _obj[y] = []
+    #     _obj[y].push(i)
+    l = arr.length
+    n = Number(n)
+    m = Number(m)
     _obj = {}
-    _obj[0] = []
-    for i in arr 
-      if n <= _n
-        n += 1
-        _obj[y].push(i)
-      else
-        n = 1
-        y += 1
-        _obj[y] = []
-        _obj[y].push(i)
+    # for y from 0 to l/n-1 by 1
+    #   _obj[y] = []
+    # for i from 0 to Object.keys(_obj).length-1 by 1
+    #   for _i from 0 to m-1 by 1
+    #     _obj[i].push arr[_i+m]
+    # _obj = {}
+    # for y from 0 to m by 1
+    #   _obj[y] = []
+    #   for i from 0 to l/n-1 by 1
+    #     _obj[y].push(arr[y+i])
     _obj
   array-simplified: (arr,num) ->
     #[2,3,4,5,6,6],2x3
-    num = num.split('x');
-    _obj = this.array2formula(arr, num[1])
-    # console.log _obj[0][0]*
-    for i from 0 to _obj[0].length-1 by 1 
-      _i = _obj[0][i]*_obj[1][0]
-      _obj[0][i] = _i
-    for i from 0 to _obj[1].length-1 by 1
-      _i = _obj[1][i]*_obj[0][0]
-      _obj[1][i] = _i
-    console.log _obj[0]
-    console.log _obj[1]
-    # _obj[0]
+    # num = num.split('x');
+    # _obj = this.array2formula(arr, num[1])
+    # console.log _obj
+  _multiplied: (arr,n,m) ->
+    #矩陣香橙的另外一邊
+    l = arr.length
+    n = Number(n)
+    m = Number(m)
+    _obj = {}
+    for y from 0 to m-1 by 1
+      _obj[y] = []
+      for i from 0 to n-1 by 1
+        _obj[y].push(arr[i*m+y])
+    _obj
 
+  multiplied : (a1,n,a2,m) ->
+    console.log a1
+    #a1,a2 are 2 arrays
+    n = n.split('x')
+    m = m.split('x')
+    # console.log m
+    _a1 = this.array2formula(a1,n[0],n[1])
+    _a2 = this._multiplied(a2,m[0],m[1])
+    console.log _a1
+    console.log _a2
 
 Kakulus.prototype.Arr = _Arr
 _det = 
@@ -370,28 +397,31 @@ Kakulus.prototype.validator = _validator
 #==============================================
 
 
-
-# _Arr.array-simplified([2,3,5,6],'2x2')
+# _Arr._multiplied([2,3,4,5,6,6],2,3);
+_Arr.multiplied([2,3,4,5,6,6],'2x3',[2,3,4,5,6,6],'2x3')
+# _Arr.array-simplified([2,3,4,5,6,6],'2x3')
 
 # _tmparr = [{x:-1.3,y:0.103},{x:-0.1,y:1.099},{x:0.2,y:0.808},{x:1.3,y:1.897}]
 # _analysis.lsm(_tmparr)
 # 
-kakulus.define('main', []).algo(
-  ($main,$generator,$arr)->
-    arr_tmp =[5,0,0,0,3,1]
-    console.log $generator.func(arr_tmp)
-    console.log \123
-).factory(
-  ->
-    console.log \hifactory
-);
-kakulus.define('main2', []).algo(
-  ($main)->
-    $main.slope(['123','456'])
-).factory(
-  ->
-    console.log \hifactory
-);
+
+
+# kakulus.define('main', []).algo(
+#   ($main,$generator,$arr)->
+#     arr_tmp =[5,0,0,0,3,1]
+#     console.log $generator.func(arr_tmp)
+#     console.log \123
+# ).factory(
+#   ->
+#     console.log \hifactory
+# );
+# kakulus.define('main2', []).algo(
+#   ($main)->
+#     $main.slope(['123','456'])
+# ).factory(
+#   ->
+#     console.log \hifactory
+# );
 
 # arr_tmp =[5,0,0,0,3,1]
 # kakulus.generator.func(arr_tmp)
