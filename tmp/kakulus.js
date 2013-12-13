@@ -221,7 +221,6 @@
       l = arr.length;
       n = Number(n);
       m = Number(m);
-      console.log(m);
       _obj = {};
       _t = 1;
       _n = 0;
@@ -263,14 +262,16 @@
       return _obj;
     },
     multiplied: function(a1, n, a2, m){
-      var _a1, _a2;
+      var _a1, _a2, _n1, _n2, _n0, _r;
       console.log(a1);
       n = n.split('x');
       m = m.split('x');
       _a1 = this.array2formula(a1, n[0], n[1]);
       _a2 = this._multiplied(a2, m[0], m[1]);
-      console.log(_a1);
-      return console.log(_a2);
+      _n1 = Number(n[0]);
+      _n2 = Number(n[1]);
+      _n0 = 0;
+      return _r = [];
     }
   };
   Kakulus.prototype.Arr = _Arr;
